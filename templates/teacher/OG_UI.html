@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+    <link href="/static/img/icon_logo.png" rel="icon">
+	<link rel="stylesheet" href="/static/css/teacher/OGM_UI.css">
+
+	<title>Staff Dashboard</title>
+</head>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			 <img src="/static/img/images.png" class="image">
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#usm">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li id="cj">
+				<a href="#">
+					<i class='bx bxs-videos'></i>
+					<span class="text">Videos</span>
+				</a>
+			</li>
+			<li id="ci">
+				<a href="#">
+					<i class='bx bx-edit'></i>
+					<span class="text">Test</span>
+				</a>
+			</li>
+			<li id="assign">
+				<a href="#">
+					<i class='bx bx-notepad'></i>
+					<span class="text">Assignment</span>
+				</a>
+			</li>
+			<li id="notes">
+				<a href="#">
+					<i class='bx bx-spreadsheet'></i>
+					<span class="text">Study Material</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="profile-2">
+					<i class='bx bx-user-circle'></i>
+					<span class="text">Profile</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="/logout" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav class="navi">
+			<i class='bx bx-menu'></i>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="notification" id="noti">
+				<i class='bx bxs-bell'></i>
+				<span class="num">8</span>
+			</a>
+			 <a href="#" class="profile-1">
+				<img src="/static/img/g4crddfnmt9a1.jpg">
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+
+
+		<div class="popup-1">
+			<div class="popup-content-1">
+				<i class='bx bx-x' id="cross-1"></i>
+				<div class="headd">Upload Recorded Class</div>
+				<input type="text" placeholder="Title"><br><br>
+				<div class="videoo"><input type="file" name="file" required></div><br><br>
+				<a href="#" class="but">UPLOAD</a>
+			</div>
+		</div>
+
+
+
+		<div class="popup-2">
+			<div class="popup-content-2">
+				<i class='bx bx-x' id="cross-2"></i>
+				<div class="headd">Upload Quiz Link</div>
+				<input type="text" placeholder="upload here"><br><br>
+				<a href="#" class="but">UPLOAD</a>
+			</div>
+		</div>
+
+
+
+		<div class="popup-3">
+			<div class="popup-content-3">
+				<i class='bx bx-x' id="cross-3"></i>
+				<div class="headd">Upload Live Class Link</div>
+				<form action="/upload_class_link" method="POST">
+					<input type="text" name="title" placeholder="Class Title" required>
+					<input type="url" name="link" placeholder="Class Link" required>
+					<input type="datetime-local" name="class_time" required>
+					<button type="submit">Upload Link</button>
+				</form>
+				
+				
+			</div>
+		</div>
+
+
+		<div class="popup-4">
+			<div class="popup-content-4">
+				<i class='bx bx-x' id="cross-4"></i>
+				<div class="headd">Upload Assignment</div>
+				<input type="text" placeholder="upload here"><br><br>
+				<a href="#" class="but">UPLOAD</a>
+			</div>
+		</div>
+
+		<div class="popup-n">
+			<div class="popup-content-n">
+				<i class='bx bx-x' id="cross-n"></i>
+			</div>
+		</div>
+
+		<div class="popup-p">
+			<div class="popup-content-p">
+				<i class='bx bx-x' id="cross-p"></i>
+				<img src="/static/img/g4crddfnmt9a1.jpg" width="150px" height="150px" class="photo">
+				<h1 class="name">{{ firstname }}</h1>
+				<h1 class="course">{{ department }}</h1>
+				<button id="but-p"><a href="/profile" target="_blank">Edit</a></button>
+			</div>
+		</div>
+
+
+
+		<!-- sidebar popup -->
+
+
+	
+		<div class="popup-s1">
+			<i class='bx bx-x' id="cross-s1"></i>
+			<div class="table-data">
+				<div class="order-sp">
+					<div class="head">
+						<h3>Uploaded Video</h3>
+					</div>
+
+
+					<div class="tab-sp">
+						<!-- Table of video uploaded -->
+		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Video</th>
+									<th>Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for video in videos %} 
+
+								<tr>
+									<td>{{ video[1] }}</td>
+									<td>
+										<!-- Play icon -->
+										<span class="play-icon" onclick="showVideo('video-{{ loop.index }}')">&#9658; Play</span>
+								
+										<!-- Hidden video element with close button -->
+										<div id="video-{{ loop.index }}" class="video-popup">
+										  <button class="close-btn" onclick="closeVideo('video-{{ loop.index }}')">×</button>
+										  <video width="300" controls>
+											<source src="{{ url_for('uploaded_file', filename=video[2]) }}" type="video/mp4">
+											Your browser does not support the video tag.
+										  </video>
+										</div>
+									  </td>
+									<td>
+										<a href="{{ url_for('delete_video', video_id=video[0]) }}">Delete</a>
+									</td> 
+								</tr>
+								{% endfor %}
+							</tbody>
+						 </table>
+					</div>
+				</div>
+
+			
+
+
+				<div class="todo-sp">
+					<div class="head">
+						<h3>Upload Video</h3>
+					</div>
+
+
+					
+					<div class="upload-box-sp">
+						<form action="{{ url_for('upload_video') }}"  method="POST" enctype="multipart/form-data">
+							<div class="upload">
+								<input type="hidden" name="upload_type" value="material">
+								<label>TITLE</label>
+							    <input type="text" name="title" required>
+						    </div>
+							
+	
+						    <div class="file">
+							    <div class="sel"><label for="file">SELECT FILE</label></div>
+							    <div class="choose"><input type="file" name="file" required></div>
+							</div>
+
+							<div class="btnn"><button type="submit" class="upload-btn">UPLOAD</button></div>
+					    </form>
+				    </div>
+
+					
+				</div>
+			</div>
+			
+		</div>
+
+
+
+
+		<div class="popup-s2">
+			<i class='bx bx-x' id="cross-s2"></i>
+			<div class="table-data">
+				<div class="order-sp-2">
+					<div class="head">
+						<h3>Uploaded Test</h3>
+					</div>
+
+
+					<div class="tab-sp-2">
+						<!-- Table of video uploaded -->
+		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Date</th>
+									<th>link</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for test in tests %}
+								<tr>
+									<td>{{ test[1] }}</td>
+									<td>{{ test[2] }}</td>
+									<td><a href="{{ test[3] }}">View Test</a></td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						 </table>
+					</div>
+				</div>
+
+			
+
+
+				<div class="todo-sp-2">
+					<div class="head">
+						<h3>Upload Test</h3>
+					</div>
+
+
+					
+					<div class="upload-box-sp-2">
+						<form action="{{ url_for('upload_test') }}" method="POST" enctype="multipart/form-data">
+							<div class="upload">
+								<label>Title:</label>
+								<input type="text" name="title" required><br>
+							
+								<label>Date:</label>
+								<input type="date" name="date" required><br>
+							
+								<label>Test Link:</label>
+								<input type="url" name="link" required><br>
+						    </div>
+							
+	
+
+
+							<div class="btnn"><button type="submit" class="upload-btn">UPLOAD</button></div>
+					    </form>
+				    </div>
+
+					
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div class="popup-s3">
+			<i class='bx bx-x' id="cross-s3"></i>
+			<div class="table-data">
+				<div class="order-sp-3">
+					<div class="head">
+						<h3>Uploaded Assignment</h3>
+					</div>
+
+
+					<div class="tab-sp-3">
+						<!-- Table of assignment uploaded -->
+		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Given Date</th>
+									<th>Last Date of Submission</th>
+									<th>Uploaded By</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for assignment in assignments %}
+								<tr>
+									<td>{{ assignment[1] }}</td>
+									<td>{{ assignment[2] }}</td>
+									<td>{{ assignment[3] }}</td>
+									<td>{{ assignment[4] }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						 </table>
+					</div>
+				</div>
+
+			
+
+
+				<div class="todo-sp-3">
+					<div class="head">
+						<h3>Upload Assignment</h3>
+					</div>
+
+
+					
+					<div class="upload-box-sp-3">
+						<form action="/upload_assignment" method="POST" enctype="multipart/form-data">
+							<div class="upload">
+								<table>
+									<tr>
+									  <td><label for="title">Title:</label></td>
+									  <td><input type="text" name="title" placeholder="Title" required></td>
+									</tr>
+									<tr>
+									  <td><label for="given_date">Given Date:</label></td>
+									  <td><input type="date" name="given_date" required></td>
+									</tr>
+									<tr>
+									  <td><label for="uploaded_by">Uploaded By:</label></td>
+									  <td><input type="text" name="uploaded_by" placeholder="Uploaded By" required></td>
+									</tr>
+									<tr>
+									  <td><label for="last_date_of_submission">Date of Submission:</label></td>
+									  <td><input type="date" name="last_date" required></td>
+									</tr>
+								
+								  </table>
+						    </div>
+							
+	
+
+
+							<div class="btnn"><button type="submit" class="upload-btn">UPLOAD</button></div>
+					    </form>
+				    </div>
+
+					
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div class="popup-s4">
+			<i class='bx bx-x' id="cross-s4"></i>
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Available Study Material</h3>
+					</div>
+
+
+					<div class="tab">
+						<!-- Table of Uploaded Study Materials -->
+		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Title</th>
+									<th>Description</th>
+									<th>Uploaded By</th>
+									<th>Download</th>
+								</tr>
+							</thead>
+							<tbody>
+							    {% for material in materials %} 
+							 <tr>
+								<tr>
+									<td>{{ material[0] }}</td>
+									<td>{{ material[1] }}</td>
+									<td>{{ material[2] }}</td>
+									<td>{{ material[4] }}</td>
+									<td>
+										<a href="{{ url_for('uploaded_file', filename=material.filename) }}" download>Download</a>
+									</td> 
+								</tr>
+								{% endfor %}
+							</tbody>
+						 </table>
+					</div>
+				</div>
+
+			
+
+
+				<div class="todo">
+					<div class="head">
+						<h3>Upload Study Material</h3>
+					</div>
+
+
+					
+					<div class="upload-box">
+						<form action="/upload" method="POST" enctype="multipart/form-data">
+							<div class="upload">
+								<label>TITLE</label>
+							    <input type="text" name="title" required>
+						    </div>
+	
+						    <div class="upload-d">
+							    <div class="des"><label>DESCRIPTION</label></div>
+							    <textarea name="description" required></textarea>
+						    </div>
+	
+						    <div class="file">
+							    <div class="sel"><label for="file">SELECT FILE</label></div>
+							    <div class="choose"><input type="file" name="file" required></div>
+							</div>
+
+							<div class="btnn"><button type="submit" class="upload-btn">UPLOAD</button></div>
+					    </form>
+				    </div>
+
+					
+				</div>
+			</div>
+
+		</div>
+		
+
+
+		
+
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1 id="usm">Dashboard</h1>
+				</div>
+			</div>
+
+			<ul class="box-info">
+				<li class="uvb">
+					<i class='bx bxs-video-plus' id="uv"></i>
+					<span class="text">
+						<h3>UPLOAD VIDEO</h3>
+						<p></p>
+					</span>
+				</li>
+				<li class="uqb">
+					<i class='bx bx-edit' id="uq"></i>
+					<span class="text">
+						<h3>UPLOAD TEST</h3>
+					</span>
+				</li>
+				<li class="ocb">
+					<i class='bx bx-laptop' id="oc"></i>
+					<span class="text">
+						<h3>ONLINE CLASS</h3>
+					</span>
+				</li>
+				<li class="uab">
+					<i class='bx bx-notepad' id="ua"></i>
+					<span class="text">
+						<h3>ASSIGNMENT</h3>
+					</span>
+				</li>
+			</ul>
+
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Available Study Material</h3>
+					</div>
+
+
+					<div class="tab">
+						<!-- Table of Uploaded Study Materials -->
+		
+						
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Title</th>
+									<th>Description</th>
+									<th>Uploaded By</th>
+									<th>Download</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for material in materials %}
+							 <tr>
+								<tr>
+									<td>{{ material[0] }}</td>
+									<td>{{ material[1] }}</td>
+									<td>{{ material[2] }}</td>
+									<td>{{ material[3] }}</td>
+									<td><a href="{{ url_for('uploaded_file', filename=material[4]) }}" download>Download</a></td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						 </table>
+					</div>
+				</div>
+
+			
+
+
+				<div class="todo">
+					<div class="head">
+						<h3>Upload Study Material</h3>
+					</div>
+
+
+					
+					<div class="upload-box">
+						<form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+							<div class="upload">
+								<input type="hidden" name="upload_type" value="material">
+								<label>TITLE</label>
+							    <input type="text" name="title" required>
+						    </div>
+	
+						    <div class="upload-d">
+							    <div class="des"><label>DESCRIPTION</label></div>
+							    <textarea name="description" required></textarea>
+						    </div>
+	
+						    <div class="file">
+							    <div class="sel"><label for="file">SELECT FILE</label></div>
+							    <div class="choose"><input type="file" name="file" required></div>
+							</div>
+
+							<div class="btnn"><button type="submit" class="upload-btn">UPLOAD</button></div>
+					    </form>
+				    </div>
+				</div>
+			</div>
+
+			<div class="table-data-uv">
+				<div class="order-uv">
+					<div class="head-uv">
+						<h3>Uploaded Videos</h3>
+					</div>
+
+
+					<div class="tab-uv">
+
+						<table>
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Video</th>
+									<th>Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for video in videos%}
+								<tr>
+									<td>{{ video[1] }}</td>
+									<td>
+										<video width="200" height="100" controls>
+										  <source src="{{ url_for('uploaded_file', filename=video[2]) }}" type="video/mp4">
+										  Your browser does not support the video tag.
+										</video>
+									  </td>
+									<td>
+										<a href="{{ url_for('delete_video', video_id=video[0]) }}">Delete</a>
+									</td>
+								{% endfor %} 
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+
+			<div class="todo-uq">
+				<div class="order-uq">
+					<div class="head-uq">
+						<h3>Uploaded Test</h3>
+					</div>
+
+					<div class="tab-uq">
+
+						<table>
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Date</th>
+									<th>link</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for test in tests %}
+								<tr>
+									<td>{{ test[1] }}</td>
+									<td>{{ test[2] }}</td>
+									<td><a href="{{ test[3] }}">link</a></td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						 </table>
+					</div>
+				</div>	
+			</div>
+		</div>
+
+
+		<div class="assignment-details">
+			<div class="hea"><h3>Uploaded Assignment</h3></div>
+			<div class="assignment-table">
+				<div class="tabb">
+					<!-- Table of Uploaded Study Materials -->
+	
+					
+					<table>
+						<thead>
+							<tr>
+								
+								<th>Title</th>
+								<th>Given Date</th>
+								<th>Last Date of Submission</th>
+								<th>Uploaded By</th>
+								
+							</tr>
+						</thead>
+							{% for assignment in assignments %}
+							<tr>
+								<td>{{ assignment[1] }}</td>
+								<td>{{ assignment[2] }}</td>
+								<td>{{ assignment[3] }}</td>
+								<td>{{ assignment[4] }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					 </table>
+				</div>
+			</div>
+		</div>
+            
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+	
+
+
+
+
+
+
+    
+
+	<script src="/static/js/OG_UI_J.js"></script>
+</body>
+</html>

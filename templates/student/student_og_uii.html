@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link href="/static/img/icon_logo.png" rel="icon">
+    <link rel="stylesheet" href="/static/css/student/student_og_uim.css" />
+</head>
+<body>
+     <!-- Sidebar -->
+     <div class="sidebar">
+        <div class="logo">
+          <img src="/static/img/images.png" height="80px" width="275px">
+        </div>
+    
+
+        <div class="titlee">
+            <h3>STUDENT'S DASHBOARD</h3>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <div class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search..." />
+        </div>
+
+        <div class="header-actions">
+          <div class="notification">
+            <i class="fas fa-bell"></i>
+            <div class="badge">3</div>
+          </div>
+
+          {% if notifications %}
+          <h3>Notifications</h3>
+          <ul>
+          {% for notification in notifications %}
+              <li>{{ notification[2] }} <small>({{ notification[3] }})</small></li>  <!-- message and timestamp -->
+          {% endfor %}
+          </ul>
+          {% else %}
+          <p>No new notifications.</p>
+          {% endif %}
+      
+          
+          <div class="user-profile">
+            <div class="profile-img"><img src="/static/img/g4crddfnmt9a1.jpg"></div>
+          </div>
+
+          <div class="logoutt">
+            <a href="/logout" class="logout">
+                <i class='bx bxs-log-out-circle' ></i>
+                <span class="text">Logout</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+       
+        
+
+       
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="card-header">
+              <div>
+                <div class="card-value">LIVE CLASS</div>
+              </div>
+              <div class="card-icon blue">
+                <i class='bx bx-laptop' id="oc"></i>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="stat-card">
+            <div class="card-header">
+              <div>
+                <div class="card-value">TEST</div>
+              </div>
+              <div class="card-icon green">
+                <i class='bx bx-edit' id="uq"></i>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="stat-card">
+            <div class="card-header">
+              <div>
+                <div class="card-value">UPLOAD ASSIGNMENT</div>
+              </div>
+              <div class="card-icon orange">
+                <i class='bx bx-notepad' id="ua"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+
+
+    <div class="popup-1">
+			<div class="popup-content-1">
+				<i class='bx bx-x' id="cross-1"></i>
+				<div class="headd">Class Link</div>
+        <h2>Upcoming Online Classes</h2>
+        <ul>
+            {% for link in links %}
+                <li>
+                    <strong>{{ link.title }}</strong><br>
+                    <a href="{{ link.link }}" target="_blank">Join Class</a><br>
+                    Time: {{ link.class_time }}
+                </li>
+            {% else %}
+                <li>No upcoming classes found.</li>
+            {% endfor %}
+        </ul>
+        
+			</div>
+		</div>
+
+
+
+
+
+    <div class="popup-2">
+			<div class="popup-content-2">
+				<i class='bx bx-x' id="cross-2"></i>
+				<div class="headd">Test Link</div>
+				<a href="#">LINK</a>
+			</div>
+		</div>
+
+
+    <div class="popup-3">
+			<div class="popup-content-3">
+				<i class='bx bx-x' id="cross-3"></i>
+				<div class="headd">Upload Assignment</div>
+				<div class="videoo"><input type="file" name="file" required></div><br><br>
+				<a href="#" class="but">UPLOAD</a>
+			</div>
+		</div>
+
+
+
+    <div class="popup-p">
+			<div class="popup-content-p">
+				<i class='bx bx-x' id="cross-p"></i>
+				<img src="/static/img/g4crddfnmt9a1.jpg" width="150px" height="150px" class="photo">
+				<h1 class="name">{{ username }}</h1>
+				<h1 class="course">{{ department }}</h1>
+        <button id="but-p"><a href="/profiles" target="_blank">Edit</a></button>
+			</div>
+		</div>
+
+    
+
+
+    <div class="container">
+
+      
+        <div class="table-data">
+
+            
+            <div class="todo">
+                 <div class="todo-uq">
+                <div class="order-uq">
+                    <div class="head-uq">
+                        <h3 id="ci">Uploaded Assignment</h3>
+                    </div>
+
+                    <div class="tab-uq">
+
+                      <table>
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Title</th>
+                                <th>Given Date</th>
+                                <th>Last Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for assignment in assignments %}
+                            <tr>
+                                <td>{{ assignment[0] }}</td>
+                                <td>{{ assignment[1] }}</td> 
+                                <td>{{ assignment[2] }}</td>
+                                <td>{{ assignment[3] }}</td>  
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                
+            </div>
+
+
+                
+              
+
+                
+            </div>
+            <div class="order">
+                <div class="head">
+                    <h3>Available Study Material</h3>
+                </div>
+
+
+                <div class="tab">
+                    <!-- Table of Uploaded Study Materials -->
+    
+                    
+                    <table>
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Title</th>
+                              <th>Description</th>
+                              <th>Uploaded By</th>
+                              <th>Download</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for material in materials %}
+                        <tr>
+                            <td>{{ material[0] }}</td>
+                            <td>{{ material[1] }}</td>
+                            <td>{{ material[2] }}</td>
+                            <td>{{ material[4] }}</td>
+                            <td><a href="{{ url_for('uploaded_file', filename=material[3]) }}" download>Download</a></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="table-data-uv">
+
+            <div class="todo-uq">
+                <div class="order-uq">
+                    <div class="head-uq">
+                        <h3 id="ci">Test</h3>
+                    </div>
+
+                    <div class="tab-uq">
+
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>link</th>
+                          </tr>
+                        </thead>
+                          <tbody>
+                            {% for test in tests %}
+                            <tr>
+                              <td>{{ test[1] }}</td>
+                              <td>{{ test[2] }}</td>
+                              <td><a href="{{ test[3] }}">link</a></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                       </table>
+                    </div>
+                </div>
+                
+            </div>
+
+            
+            <div class="order-uv">
+                <div class="head-uv">
+                    <h3 id="cj">Available Videos</h3>
+                </div>
+
+
+                <div class="tab-uv">
+
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Video Preview</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for video in videos %}
+                        <tr>
+                          <td>{{ video[0] }}</td>
+                          <td>{{ video[1] }}</td>
+                          <td>
+                            <!-- Play icon -->
+                            <span class="play-icon" onclick="showVideo('video-{{ loop.index }}')">&#9658; Play</span>
+                        
+                            <!-- Hidden video element with close button -->
+                            <div id="video-{{ loop.index }}" class="video-popup">
+                              <button class="close-btn" onclick="closeVideo('video-{{ loop.index }}')">×</button>
+                              <video width="300" controls>
+                              <source src="{{ url_for('uploaded_file', filename=video[2]) }}" type="video/mp4">
+                              Your browser does not support the video tag.
+                              </video>
+                            </div>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+   
+
+    <script src="/static/js/student_og_uij.js"></script>
+</body>
+</html>

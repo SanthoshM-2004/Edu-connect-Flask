@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Staff Login</title>
+    <link href="/static/img/icon_logo.png" rel="icon">
+    <link rel="stylesheet" href="/static/css/teacher/staff_design.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <span class="bg-animate"></span>
+
+
+        <div class="form-box login">
+            <h2 class="animation" style="--i:0; --j:21;">Login</h2>
+            <form action="/teacher_login" method="POST">
+                <div class="input-box animation" style="--i:1; --j:22;">
+                    <input type="text" name="username" required class="texx">
+                    <label>Username</label>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box animation" style="--i:2; --j:23;">
+                    <input type="password" name="password" required id="password">
+                    <label>Password</label>
+                    <i class="fa-solid fa-eye" id="eye"></i>
+                </div>
+                <button type="submit" class="btn animation" style="--i:3; --j:24;">Login</button>
+            </form>
+        </div>
+
+        <div class="info-text login">
+            <h2 class="animation" style="--i:0; --j:20;">Hello Professor!!</h2>
+            <p class="animation" style="--i:1; --j:21;"></p>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
